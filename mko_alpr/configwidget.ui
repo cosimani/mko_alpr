@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigWidget</class>
+ <widget class="QWidget" name="ConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>507</width>
+    <height>506</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="pbComenzar">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>450</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Comenzar</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbBaseRedLocal">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>320</y>
+     <width>126</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SQLite local</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QCheckBox" name="checkOffline">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>380</y>
+     <width>160</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Off-line</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lBaseRedLocal">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>160</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Base de datos</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbWebService">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>270</y>
+     <width>195</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>No seleccionado</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>190.57.233.66:8086</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>172.24.200.30:8080</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="lWebService">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>270</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>WebService</string>
+   </property>
+  </widget>
+  <widget class="MiQLineEdit" name="leCarpeta">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>100</y>
+     <width>125</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string/>
+   </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="placeholderText">
+    <string>Elegir directorio</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lCarpeta">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>100</y>
+     <width>102</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Carpeta en disco</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lCamaraIp">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>70</y>
+     <width>62</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cámara IP</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbCamaraUsb">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>140</y>
+     <width>126</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>No seleccionado</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="lCamaraUsb">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>140</y>
+     <width>76</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cámara USB</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbFuente">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>40</y>
+     <width>201</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>No seleccionado</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Cámara IP</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Carpeta en disco</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Cámara USB</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="lFuente">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>40</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Elegir fuente</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbCamaraIp">
+   <property name="geometry">
+    <rect>
+     <x>218</x>
+     <y>70</y>
+     <width>231</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>No seleccionado</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>rtsp://admin:admin@172.24.155.50</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MiQLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>miqlineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

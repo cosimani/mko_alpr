@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fuentes/angelina.TTF</file>
+        <file>fuentes/Bethhrg_.ttf</file>
+        <file>fuentes/HelveticaNeue.ttf</file>
+    </qresource>
+</RCC>
