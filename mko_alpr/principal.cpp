@@ -649,8 +649,8 @@ void Principal::process( cv::Mat * frame )
                         QString matches = m ? "s":"n";
                         float c = candidate.overall_confidence;
 
-                        // Sera registrado siempre que la confidencia sea mayor a este porcentaje
-                        if ( c > 50.0f )  {
+                        // Sera registrado siempre que la confianza sea mayor a este porcentaje
+                        if ( c > 75.0f )  {
 
                             Database::getInstance()->candidate( domain, matches, c, pdid );
 
