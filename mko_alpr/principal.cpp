@@ -582,6 +582,9 @@ void Principal::process( cv::Mat * frame )
                     pdid = Database::getInstance()->plateDetection( sessionId );
                     pdidReg = true;
 
+
+#ifdef PARA_TRAINING
+
                     // the X/Y coordinates of the corners of the plate (clock-wise from top-left)
                     alpr::AlprCoordinate plate_points[4] = { plate.plate_points[0],
                                                              plate.plate_points[1],
@@ -594,7 +597,7 @@ void Principal::process( cv::Mat * frame )
 //                    qDebug() << plate_points[2].x << plate_points[2].y;
 //                    qDebug() << plate_points[3].x << plate_points[3].y;
 
-                    int borde = 30;  // Pixeles para ampliar el borde de la patente en la imagen a guardar en disco
+                    int borde = 0;  // Pixeles para ampliar el borde de la patente en la imagen a guardar en disco
 
                     int xPlate = qMin( plate_points[0].x, plate_points[3].x );
                     int yPlate = qMin( plate_points[0].y, plate_points[1].y );
@@ -638,33 +641,15 @@ void Principal::process( cv::Mat * frame )
                         cv::Rect roi( xPlate, yPlate, wPlate, hPlate );
                         cv::Mat image_roi = frame->operator ()( roi );
 
-                        QString nombreArchivo = "../reg/" + sDateTime + domain + ".png";
+                        QString nombreArchivo = "../train/" + sDateTime + domain + ".png";
 
                         // Almacena el roi donde esta la patente y como nombre de archivo lo que se detecto.
                         // Posiblemente no coincida el nombre del archivo con la patente detectada
                         cv::imwrite( nombreArchivo.toStdString().c_str(), image_roi );
 
-                        // Se carga esta imagen del dominio detectado en el QLabel
-                        bool exito = imDetectadaActual.load( nombreArchivo );
-                        if ( exito )  {
-                            ui->lImageDominio->setPixmap( this->imDetectadaActual.scaled( ui->lImageDominio->size() ) );
-                            ui->lNroDominio->setText( domain );
-                        }
-                        else  {
-                            ui->lImageDominio->setText( "No se pudo cargar la imagen" );
-                            ui->lNroDominio->setText( domain );
-                        }
-
-                    }
-                    else  {  // Aca almacena la imagen completa cuando no se puede recortar correctamente el dominio
-
-                        QString nombreArchivo = "../reg/" + sDateTime + domain + ".png";
-                        cv::imwrite( nombreArchivo.toStdString().c_str(), *frame );
                     }
 
-                    // Aqui se almacena la imagen completa, como evidencia.
-                    QString nombreArchivoImCompleta = "../evidencias/" + sDateTime + domain + ".png";
-                    cv::imwrite( nombreArchivoImCompleta.toStdString().c_str(), *frame );
+#endif
 
 
                     if( pdid != -1 )
@@ -674,6 +659,96 @@ void Principal::process( cv::Mat * frame )
 
                         // Sera registrado siempre que la confianza sea mayor a este porcentaje
                         if ( c > 75.0f )  {
+
+
+                            // the X/Y coordinates of the corners of the plate (clock-wise from top-left)
+                            alpr::AlprCoordinate plate_points[4] = { plate.plate_points[0],
+                                                                     plate.plate_points[1],
+                                                                     plate.plate_points[2],
+                                                                     plate.plate_points[3] };
+
+        //                    qDebug() << "alpr::AlprCoordinate" << i;
+        //                    qDebug() << plate_points[0].x << plate_points[0].y;
+        //                    qDebug() << plate_points[1].x << plate_points[1].y;
+        //                    qDebug() << plate_points[2].x << plate_points[2].y;
+        //                    qDebug() << plate_points[3].x << plate_points[3].y;
+
+                            int borde = 30;  // Pixeles para ampliar el borde de la patente en la imagen a guardar en disco
+
+                            int xPlate = qMin( plate_points[0].x, plate_points[3].x );
+                            int yPlate = qMin( plate_points[0].y, plate_points[1].y );
+
+                            if ( ( xPlate - borde ) > 0 )  // agrega borde simpre que no se exceda
+                                xPlate -= borde;
+
+                            if ( ( yPlate - borde ) > 0 )  // agrega borde simpre que no se exceda
+                                yPlate -= borde;
+
+                            // Validaciones
+                            xPlate = qMax( xPlate, 0 );
+                            yPlate = qMax( yPlate, 0 );
+
+                            int wPlate = qMax( plate_points[1].x, plate_points[2].x ) - xPlate;
+                            int hPlate = qMax( plate_points[2].y, plate_points[3].y ) - yPlate;
+
+                            if ( ( xPlate + wPlate + borde ) < frame->cols )  // agrega borde simpre que no se exceda
+                                wPlate += borde;
+
+                            if ( ( yPlate + hPlate + borde ) < frame->rows )  // agrega borde simpre que no se exceda
+                                hPlate += borde;
+
+                            // Validaciones
+        //                    wPlate = qMin( wPlate, frame->cols - xPlate );
+        //                    hPlate = qMin( hPlate, frame->rows - yPlate );
+
+                            // fecha y hora para el nombre del archivo para guardar en /reg y en /evidencias
+                            QDateTime dateTime = QDateTime::currentDateTime();
+                            QString sDateTime = dateTime.toString("yyyyMMdd_hh-mm-ss_");
+
+                            // Esta es la ultima validacion que hacemos para que no se clave opencv
+                            // Si no se cumple no grabamos en disco el recorte sino la imagen completa
+                            if ( 0 <= xPlate &&
+                                 0 <= wPlate &&
+                                 ( xPlate + wPlate ) <= frame->cols &&
+                                 0 <= yPlate &&
+                                 0 <= hPlate &&
+                                 ( yPlate + hPlate ) <= frame->rows )  {
+
+                                cv::Rect roi( xPlate, yPlate, wPlate, hPlate );
+                                cv::Mat image_roi = frame->operator ()( roi );
+
+                                QString nombreArchivo = "../reg/" + sDateTime + domain + ".png";
+
+                                // Almacena el roi donde esta la patente y como nombre de archivo lo que se detecto.
+                                // Posiblemente no coincida el nombre del archivo con la patente detectada
+                                cv::imwrite( nombreArchivo.toStdString().c_str(), image_roi );
+
+                                // Se carga esta imagen del dominio detectado en el QLabel
+                                bool exito = imDetectadaActual.load( nombreArchivo );
+                                if ( exito )  {
+                                    ui->lImageDominio->setPixmap( this->imDetectadaActual.scaled( ui->lImageDominio->size() ) );
+                                    ui->lNroDominio->setText( domain );
+                                }
+                                else  {
+                                    ui->lImageDominio->setText( "No se pudo cargar la imagen" );
+                                    ui->lNroDominio->setText( domain );
+                                }
+
+                            }
+                            else  {  // Aca almacena la imagen completa cuando no se puede recortar
+                                     // correctamente el dominio
+
+                                QString nombreArchivo = "../reg/" + sDateTime + domain + ".png";
+                                cv::imwrite( nombreArchivo.toStdString().c_str(), *frame );
+                            }
+
+                            // Aqui se almacena la imagen completa, como evidencia.
+                            QString nombreArchivoImCompleta = "../evidencias/" + sDateTime + domain + ".png";
+                            cv::imwrite( nombreArchivoImCompleta.toStdString().c_str(), *frame );
+
+
+
+
 
                             Database::getInstance()->candidate( domain, matches, c, pdid );
 

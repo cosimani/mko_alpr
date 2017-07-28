@@ -14,7 +14,9 @@ TEMPLATE = app
 # Esto para que no muestre demasiado debug por consola
 DEFINES += SIN_DEBUG
 
-# Esto para
+# Esto para que ademas de detectar las patentes, almacenar en /reg con borde=30 y en evidencias,
+# que tambien guarde en la carpeta /train las matriculas con borde=0 listas para entrenar el OCR
+DEFINES += PARA_TRAINING
 
 contains( DEFINES, SIN_DEBUG )  {
 
