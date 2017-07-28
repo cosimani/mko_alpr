@@ -324,8 +324,13 @@ void Principal::dimensionarWidgets()
     Q_UNUSED(anchoWidgetsCol1);
     Q_UNUSED(anchoWidgetsCamara);
 
+    // Como en el QtDEsigner se coloco texto, lo limpiamos para que no tenga una vez iniciada la aplicacion
+    ui->lImageDominio->setText( "" );
+    ui->lNroDominio->setText( "" );
+
     QFont fontBethHand( "BethHand", altoWidget / 1.7f, QFont::Normal );
-//    QFont fontAngelina( "Angelina", 15, QFont::Normal );
+//    QFont fontAngelina( "Angelina", altoWidget / 1.7f, QFont::Normal );
+    QFont serifFont( "Times", altoWidget / 1.7f, QFont::Bold );
 
     QPalette palette = this->palette();
     palette.setColor( QPalette::WindowText, QColor( 255, 255, 255 ) );
@@ -334,6 +339,10 @@ void Principal::dimensionarWidgets()
     this->setPalette( palette );
 
     ui->lbEstado->setGeometry( QRect( borde, borde, anchoWidgetsCol0, altoWidget ) );
+
+    ui->lNroDominio->setFont( serifFont );
+    ui->lNroDominio->setGeometry( QRect( borde, 4 * borde + altoWidget, anchoWidgetsCol0 / 2, altoWidget ) );
+    ui->lImageDominio->setGeometry( QRect( borde, 4 * borde + 2 * altoWidget, anchoWidgetsCol0 / 2, 2 * altoWidget ) );
 
     ui->pbProcesarVideo->setGeometry( QRect( borde, altoPantalla - borde - altoWidget,
                                              anchoWidgetsCol0, altoWidget ) );
@@ -348,6 +357,7 @@ void Principal::dimensionarWidgets()
     ui->cameraWidget->setGeometry( QRect( anchoPantalla / 2 - anchoCamara / 2,
                                           altoWidget + 2 * borde,
                                           anchoCamara, altoCamara ) );
+
 
 //    QRect rec = QApplication::desktop()->screenGeometry();
 //    int anchoScreen = rec.width();
@@ -443,8 +453,10 @@ void Principal::process( cv::Mat * frame )
 //            openalpr.recognize( imageFile );
 
     std::vector<alpr::AlprRegionOfInterest> regionsOfInterest;
-    alpr::AlprRegionOfInterest region( 0, 0, frame->cols, frame->rows );
-    regionsOfInterest.push_back( region );
+    // Si le pasamos una ROI vacia, entonces entiende que tiene que analizar la imagen completa
+    // Iguamente se podrian usar las siguientes lineas para definir un ROI especifica
+//    alpr::AlprRegionOfInterest region( 0, 0, frame->cols, frame->rows );
+//    regionsOfInterest.push_back( region );
 
 
     alpr::AlprResults results = openalpr.recognize( frame->data,
@@ -452,8 +464,6 @@ void Principal::process( cv::Mat * frame )
                                                     frame->cols,
                                                     frame->rows,
                                                     regionsOfInterest );
-
-
 
 #ifdef DEBUG_OSI
 
@@ -545,8 +555,6 @@ void Principal::process( cv::Mat * frame )
         alpr::AlprPlateResult plate = results.plates[ i ];
 
 
-
-
         //qDebug() << "Plate [" << QString::number( i+1 ) << "]: " << plate.topNPlates.size() << " results";
 
         for ( unsigned int k = 0 ; k < plate.topNPlates.size() ; k++ )
@@ -562,6 +570,9 @@ void Principal::process( cv::Mat * frame )
                     continue;
                 }
                 sessionDomains.append( domain );
+
+                // Este nro indica que luego de detectar esta cantidad de patentes, empieza a borrar las primeras
+                // que detecto. Entonces podr[ia detectar nuevamente algun dominio ya detectado antes en esta sesion
                 if( sessionDomains.size() == 500 )
                 {
                     sessionDomains.removeFirst();
@@ -632,6 +643,18 @@ void Principal::process( cv::Mat * frame )
                         // Almacena el roi donde esta la patente y como nombre de archivo lo que se detecto.
                         // Posiblemente no coincida el nombre del archivo con la patente detectada
                         cv::imwrite( nombreArchivo.toStdString().c_str(), image_roi );
+
+                        // Se carga esta imagen del dominio detectado en el QLabel
+                        bool exito = imDetectadaActual.load( nombreArchivo );
+                        if ( exito )  {
+                            ui->lImageDominio->setPixmap( this->imDetectadaActual.scaled( ui->lImageDominio->size() ) );
+                            ui->lNroDominio->setText( domain );
+                        }
+                        else  {
+                            ui->lImageDominio->setText( "No se pudo cargar la imagen" );
+                            ui->lNroDominio->setText( domain );
+                        }
+
                     }
                     else  {  // Aca almacena la imagen completa cuando no se puede recortar correctamente el dominio
 

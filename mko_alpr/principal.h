@@ -14,6 +14,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QPixmap>
 
 #include <opencv/highgui.h>
 #include <opencv2/opencv.hpp>
@@ -70,13 +71,16 @@ private:
     void dimensionarWidgets();
 
     ConfigObject * configObject;
+    
+    // Es la imagen de la matricula que se muestra en Principal cuando se detecta alguna patente
+    QPixmap imDetectadaActual;
 
 protected:
     void showEvent( QShowEvent * );
     void hideEvent( QHideEvent * );
 
     void resizeEvent(QResizeEvent *);
-
+    
 private slots:
     void slot_estado();
     void slot_prueba();

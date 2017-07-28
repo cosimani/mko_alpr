@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>390</width>
-    <height>223</height>
+    <width>408</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="lbEstado">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>29</y>
+     <x>130</x>
+     <y>20</y>
      <width>41</width>
      <height>16</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QPushButton" name="pbCerrarSesion">
    <property name="geometry">
     <rect>
-     <x>293</x>
-     <y>192</y>
+     <x>300</x>
+     <y>260</y>
      <width>88</width>
      <height>22</height>
     </rect>
@@ -42,8 +42,8 @@
   <widget class="CameraWidget" name="cameraWidget" native="true">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>49</y>
+     <x>210</x>
+     <y>80</y>
      <width>192</width>
      <height>137</height>
     </rect>
@@ -58,14 +58,40 @@
   <widget class="QPushButton" name="pbProcesarVideo">
    <property name="geometry">
     <rect>
-     <x>79</x>
-     <y>190</y>
+     <x>60</x>
+     <y>260</y>
      <width>121</width>
      <height>22</height>
     </rect>
    </property>
    <property name="text">
     <string>Procesar video</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lImageDominio">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>140</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>label para imagen</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lNroDominio">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>label para numero</string>
    </property>
   </widget>
  </widget>

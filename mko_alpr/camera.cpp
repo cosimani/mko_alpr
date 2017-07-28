@@ -34,7 +34,7 @@ void Camera::procesarVideo( QString archivo )
         return;
     }
 
-    timer->start( 300 );
+    timer->start( 10 );
 
 }
 
@@ -49,7 +49,7 @@ void Camera::initCamaraUSB( int indexCamera )
         return;
     }
 
-    timer->start( 300 );
+    timer->start( 10 );
 }
 
 /**
@@ -62,7 +62,7 @@ void Camera::initFolder( QString directorio )
 
     folderObject->setDirectorio( directorio );
 
-    timer->start( 1000 );
+    timer->start( 500 );
 }
 
 void Camera::initCamaraIP( QString url )
@@ -83,7 +83,7 @@ void Camera::initCamaraIP( QString url )
         return;
     }
 
-    timer->start( 300 );
+    timer->start( 10 );
 }
 
 
